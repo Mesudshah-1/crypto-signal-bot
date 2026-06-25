@@ -1,4 +1,4 @@
-name: crypto-bot
+name: bot
 
 on:
   workflow_dispatch:
@@ -17,6 +17,3 @@ jobs:
       - run: pip install requests
 
       - run: python bot.py
-        env:
-          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          GENERAL_CHANNEL_ID: ${{ secrets.GENERAL_CHANNEL_ID }}
