@@ -1,42 +1,7 @@
-import os
 import requests
 import pandas as pd
 import feedparser
 import html
-
-# Tokenı sistemden çekip, stringe çevirip tüm gizli boşlukları jilet gibi kesiyoruz
-TELEGRAM_TOKEN = str(os.getenv("TELEGRAM_BOT_TOKEN", "")).strip()
-TELEGRAM_CHAT_ID = "-1003953455562"
-
-def send_telegram_message(message):
-    """Telegram kanalına/grubuna HTML formatında mesaj gönderir."""
-    # DETECTIVE LINE 1: Token boş mu geliyor kontrolü
-    if not TELEGRAM_TOKEN:
-        print("❌ KRİTİK HATA: GitHub Secrets'tan TELEGRAM_BOT_TOKEN okunamadı! İçi tamamen boş.")
-        return
-    else:
-        # Güvenlik için tokenin sadece ilk 5 karakterini yazdırıp kontrol ediyoruz
-        print(f"ℹ️ Token başarıyla algılandı. Başlangıcı: {TELEGRAM_TOKEN[:5]}...")
-        
-    url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
-    payload = {
-        "chat_id": TELEGRAM_CHAT_ID,
-        "text": message,
-        "parse_mode": "HTML",  
-        "disable_web_page_preview": False
-    }
-    try:
-        response = requests.post(url, json=payload)
-        # DETECTIVE LINE 2: Telegram'dan dönen gerçek yanıtı loglara basıyoruz
-        print(f"ℹ️ Telegram Sunucu Yanıt Kodu: {response.status_code}")
-        print(f"ℹ️ Telegram Sunucu Detayı: {response.text}")
-        
-        if response.status_code == 200:
-            print("🟢 Telegram mesajı başarıyla gönderildi.")
-        else:
-            print(f"❌ Telegram hatası: {response.text}")
-    except Exception as e:
-        print(f"❌ Mesaj gönderilirken hata oluştu: {e}")
 
 def get_btc_analysis():
     """Binance API kullanarak BTC verilerini çeker ve teknik analiz yapar."""
@@ -92,7 +57,7 @@ def get_btc_analysis():
         return f"❌ Binance verileri alınırken hata oluştu: {str(e)}"
 
 def get_coindesk_news():
-    """CoinDesk RSS Feed üzerinden en son haberi çeker ve HTML uyumlu yapar."""
+    """CoinDesk RSS Feed üzerinden en son haberi çeker."""
     feed_url = "https://www.coindesk.com/arc/outboundfeeds/rss/"
     try:
         feed = feedparser.parse(feed_url)
@@ -108,5 +73,6 @@ def get_coindesk_news():
 if __name__ == "__main__":
     btc_report = get_btc_analysis()
     crypto_news = get_coindesk_news()
-    final_message = f"{btc_report}\n---------------------------\n\n{crypto_news}"
-    send_telegram_message(final_message)
+    
+    # Sadece ekrana print ediyoruz, yml dosyası bu yazıyı yakalayıp Telegram'a gönderecek
+    print(f"{btc_report}\n---------------------------\n\n{crypto_news}")
