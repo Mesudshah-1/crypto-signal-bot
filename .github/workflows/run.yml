@@ -18,6 +18,6 @@ jobs:
 
       - run: python bot.py
         env:
-          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          GENERAL_CHANNEL_ID: ${{ secrets.GENERAL_CHANNEL_ID }}
-          VIP_CHANNEL_ID: ${{ secrets.VIP_CHANNEL_ID }}
+          TELEGRAM_BOT_TOKEN: 8703847181:AAG7ZoIJ4XHpqniqm2wp16ZUCHJL7tIzctg
+          GENERAL_CHANNEL_ID: -1003953455562
+          VIP_CHANNEL_ID: -1003950012200
