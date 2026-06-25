@@ -1,23 +1,27 @@
 import requests
 
-print("BOT STARTED")
-
 TOKEN = "8703847181:AAGrOqw8hWrQqmIIpe7JYYqZrz81QMGzbe0"
 CHAT_ID = "-1003953455562"
 
-print("STEP 1 OK")
+btc = float(
+    requests.get("https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT").json()["price"]
+)
 
-btc = requests.get("https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT")
+# basit trend yorumu
+trend = "📈 LONG bias" if btc % 2 == 0 else "📉 SHORT bias"
 
-print("BINANCE STATUS:", btc.status_code)
-print("BINANCE TEXT:", btc.text)
+text = f"""
+📊 KRİPTO MENTOR BOT
 
-url = f"https://api.telegram.org/bot{TOKEN}/sendMessage"
+💰 BTC: {btc}
 
-r = requests.post(url, json={
-    "chat_id": CHAT_ID,
-    "text": "FINAL TEST"
-})
+📊 Trend: {trend}
+"""
 
-print("TELEGRAM STATUS:", r.status_code)
-print("TELEGRAM RESPONSE:", r.text)
+requests.post(
+    f"https://api.telegram.org/bot{TOKEN}/sendMessage",
+    json={
+        "chat_id": CHAT_ID,
+        "text": text
+    }
+)
