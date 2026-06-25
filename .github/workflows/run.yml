@@ -1,10 +1,10 @@
-name: Günlük Kripto Botu
+name: Gunluk Kripto Botu
 
 on:
-  workflow_dispatch: # Manuel tetikleme için
+  workflow_dispatch: # Manuel tetikleme icin
 
 jobs:
-  çalıştır-bot:
+  run-bot: # Türkçe karakterleri temizledik, GitHub artık kızmayacak
     runs-on: ubuntu-latest
 
     steps:
@@ -16,14 +16,13 @@ jobs:
       with:
         python-version: '3.10'
 
-    - name: Bağımlılıkları Yükle
+    - name: Bagimliliklari Yukle
       run: |
         python -m pip install --upgrade pip
         pip install requests pandas feedparser
 
-    - name: Botu Çalıştır
+    - name: Botu Calistir
       env:
-        # İŞTE BURASI KRİTİK! GitHub kasasındaki şifreyi Python kodunun okuyacağı alana bağlıyoruz:
         TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
       run: |
         python bot.py
