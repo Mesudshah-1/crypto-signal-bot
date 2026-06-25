@@ -1,4 +1,4 @@
-name: HARD DEBUG
+name: SYSTEM TEST
 
 on:
   workflow_dispatch:
@@ -8,22 +8,22 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: STEP 1 - CHECKOUT
+      - name: CHECKOUT
         uses: actions/checkout@v4
 
-      - name: STEP 2 - WHERE AM I
-        run: pwd
-
-      - name: STEP 3 - LIST FILES
-        run: ls -la
-
-      - name: STEP 4 - FIND BOT
-        run: find .
-
-      - name: STEP 5 - PYTHON
-        run: python --version
-
-      - name: STEP 6 - RUN FILE
+      - name: SHOW DIRECTORY
         run: |
-          echo "RUNNING BOT"
-          python bot.py
+          echo "=== PWD ==="
+          pwd
+          echo "=== FILES ==="
+          ls -R
+
+      - name: CHECK PYTHON
+        run: |
+          python --version
+          which python
+
+      - name: TEST PYTHON RUN
+        run: |
+          echo 'print("HELLO FROM ACTIONS")' > test.py
+          python test.py
