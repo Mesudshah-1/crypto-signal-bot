@@ -1,25 +1,16 @@
-import os
 import requests
 
-print("BOT STARTED")
+TOKEN = "8703847181:AAGrOqw8hWrQqmIIpe7JYYqZrz81QMGzbe0"
+CHAT_ID = "-1003953455562"
 
-TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
-CHAT_ID = os.getenv("GENERAL_CHANNEL_ID")
+btc = requests.get(
+    "https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT"
+).json()["price"]
 
-print("TOKEN OK:", bool(TOKEN))
-print("CHAT ID:", CHAT_ID)
-
-btc = requests.get("https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT").json()
-print("BINANCE OK:", btc)
-
-message = f"BTC: {btc['price']}"
-
-r = requests.post(
+requests.post(
     f"https://api.telegram.org/bot{TOKEN}/sendMessage",
     json={
         "chat_id": CHAT_ID,
-        "text": message
+        "text": f"BTC: {btc}"
     }
 )
-
-print("TELEGRAM RESPONSE:", r.text)
