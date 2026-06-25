@@ -4,9 +4,8 @@ on:
   workflow_dispatch: # Manuel tetikleme icin
 
 jobs:
-  run-bot: # Türkçe karakterleri temizledik, GitHub artık kızmayacak
+  send-report:
     runs-on: ubuntu-latest
-
     steps:
     - name: Depoyu Klonla
       uses: actions/checkout@v4
@@ -21,8 +20,16 @@ jobs:
         python -m pip install --upgrade pip
         pip install requests pandas feedparser
 
-    - name: Botu Calistir
-      env:
-        TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+    - name: Analiz Raporunu Hazirla
+      # Bu adim sadece analizi hazirlayip hafizaya alacak, Telegram'a gondermeyecek
       run: |
-        python bot.py
+        python bot.py > rapor.txt
+
+    - name: Hazir Telegram Aksiyonu ile Mesaj At
+      # Dunyanin en populer hazir Telegram aksiyonunu kullaniyoruz, sifre problemini kökten cozüyor
+      uses: appleboy/telegram-action@master
+      with:
+        to: "-1003953455562"
+        token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+        message_file: rapor.txt
+        format: html
