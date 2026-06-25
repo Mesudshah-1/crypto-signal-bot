@@ -1,4 +1,4 @@
-name: simple-test
+name: FINAL DEBUG
 
 on:
   workflow_dispatch:
@@ -10,4 +10,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - run: python bot.py
+      - name: SHOW FILES
+        run: ls -R
+
+      - name: SHOW BOT FILE
+        run: cat bot.py
+
+      - name: PYTHON VERSION
+        run: python --version
+
+      - name: RUN BOT
+        run: python -u bot.py
