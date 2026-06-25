@@ -1,6 +1,9 @@
 import requests
 import feedparser
 
+print("BOT STARTED")
+print("BTC REQUEST OK")
+
 # 🔐 SENİN BİLGİLERİN DİREKT GİRİLDİ
 TOKEN = "8703847181:AAG7ZoIJ4XHpqniqm2wp16ZUCHJL7tIzctg"
 GENERAL_CHANNEL = "-1003953455562"
