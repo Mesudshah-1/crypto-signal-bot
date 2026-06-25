@@ -3,8 +3,8 @@ import requests
 import pandas as pd
 import feedparser
 
-# Token ve Chat ID tanımlamaları
-TELEGRAM_TOKEN = os.getenv("8703847181:AAGrOqw8hWrQqmIIpe7JYYqZrz81QMGzbe0")
+# Token güvenliğiniz için GitHub Secrets'tan alınır (BURAYA ASLA ŞİFRE YAZMA)
+TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
 TELEGRAM_CHAT_ID = "-1003953455562"
 
 def send_telegram_message(message):
@@ -95,7 +95,6 @@ def get_coindesk_news():
     """CoinDesk RSS Feed üzerinden en son haberi güvenli şekilde çeker."""
     feed_url = "https://www.coindesk.com/arc/outboundfeeds/rss/"
     try:
-        # Timeout ekleyerek akışın kilitlenmesini engelliyoruz
         feed = feedparser.parse(feed_url)
         if hasattr(feed, 'entries') and len(feed.entries) > 0:
             latest_story = feed.entries[0]
