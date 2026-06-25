@@ -1,4 +1,4 @@
-name: FINAL DEBUG
+name: HARD DEBUG
 
 on:
   workflow_dispatch:
@@ -8,16 +8,22 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: STEP 1 - CHECKOUT
+        uses: actions/checkout@v4
 
-      - name: SHOW FILES
-        run: ls -R
+      - name: STEP 2 - WHERE AM I
+        run: pwd
 
-      - name: SHOW BOT FILE
-        run: cat bot.py
+      - name: STEP 3 - LIST FILES
+        run: ls -la
 
-      - name: PYTHON VERSION
+      - name: STEP 4 - FIND BOT
+        run: find .
+
+      - name: STEP 5 - PYTHON
         run: python --version
 
-      - name: RUN BOT
-        run: python -u bot.py
+      - name: STEP 6 - RUN FILE
+        run: |
+          echo "RUNNING BOT"
+          python bot.py
