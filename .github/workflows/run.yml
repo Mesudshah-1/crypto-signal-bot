@@ -1,4 +1,4 @@
-name: Debug Bot
+name: FULL DEBUG BOT
 
 on:
   workflow_dispatch:
@@ -8,19 +8,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repo
+        uses: actions/checkout@v4
 
-      - name: Show environment
-        run: env
+      - name: Show directory
+        run: pwd
 
-      - name: List files
-        run: ls -R
+      - name: List all files
+        run: find .
 
       - name: Python version
         run: python --version
 
-      - name: Install deps
+      - name: Install dependencies
         run: pip install requests feedparser
 
-      - name: Run bot
-        run: python bot.py
+      - name: Run bot with error output
+        run: python -u bot.py
