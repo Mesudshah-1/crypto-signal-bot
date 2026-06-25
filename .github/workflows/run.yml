@@ -1,4 +1,4 @@
-name: Crypto Bot
+name: Debug Bot
 
 on:
   workflow_dispatch:
@@ -10,14 +10,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
+      - name: Show environment
+        run: env
 
-      - run: pip install requests feedparser
+      - name: List files
+        run: ls -R
 
-      - run: python --version
-      - run: ls
-      - run: cat bot.py
+      - name: Python version
+        run: python --version
 
-      - run: python bot.py
+      - name: Install deps
+        run: pip install requests feedparser
+
+      - name: Run bot
+        run: python bot.py
