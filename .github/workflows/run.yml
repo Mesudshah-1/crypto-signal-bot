@@ -1,4 +1,4 @@
-name: SYSTEM TEST
+name: crypto-bot
 
 on:
   workflow_dispatch:
@@ -8,22 +8,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: CHECKOUT
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: SHOW DIRECTORY
-        run: |
-          echo "=== PWD ==="
-          pwd
-          echo "=== FILES ==="
-          ls -R
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
 
-      - name: CHECK PYTHON
-        run: |
-          python --version
-          which python
+      - run: pip install requests
 
-      - name: TEST PYTHON RUN
-        run: |
-          echo 'print("HELLO FROM ACTIONS")' > test.py
-          python test.py
+      - run: python bot.py
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          GENERAL_CHANNEL_ID: ${{ secrets.GENERAL_CHANNEL_ID }}
