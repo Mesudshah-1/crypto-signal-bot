@@ -1,4 +1,4 @@
-name: Crypto Signal Bot
+name: Crypto Bot
 
 on:
   workflow_dispatch:
@@ -14,10 +14,6 @@ jobs:
         with:
           python-version: "3.11"
 
-      - run: pip install -r requirements.txt
+      - run: pip install requests feedparser
 
       - run: python bot.py
-        env:
-          TELEGRAM_BOT_TOKEN: 8703847181:AAG7ZoIJ4XHpqniqm2wp16ZUCHJL7tIzctg
-          GENERAL_CHANNEL_ID: -1003953455562
-          VIP_CHANNEL_ID: -1003950012200
