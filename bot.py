@@ -5,12 +5,12 @@ import feedparser
 import html
 
 # Token ve Chat ID tanımlamaları
-TELEGRAM_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
+TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
 TELEGRAM_CHAT_ID = "-1003953455562"
 
 def send_telegram_message(message):
     """Telegram kanalına/grubuna HTML formatında mesaj gönderir."""
-    url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
+    url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
     payload = {
         "chat_id": TELEGRAM_CHAT_ID,
         "text": message,
