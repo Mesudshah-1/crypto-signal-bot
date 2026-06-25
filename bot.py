@@ -3,8 +3,8 @@ import requests
 import feedparser
 
 TOKEN = os.environ["TELEGRAM_BOT_TOKEN"]
-GENERAL = os.environ["GENERAL_CHANNEL_ID"]
-VIP = os.environ["VIP_CHANNEL_ID"]
+GENERAL = os.environ["-1003953455562"]
+VIP = os.environ["-1003950012200"]
 
 # ---------------- TELEGRAM ----------------
 def send(chat_id, text):
