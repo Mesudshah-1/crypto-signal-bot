@@ -4,8 +4,8 @@ import pandas as pd
 import feedparser
 import html
 
-# Token ve Chat ID tanımlamaları
-TELEGRAM_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "").strip()
+# Tokenı sistemden çekip, stringe çevirip tüm gizli boşlukları jilet gibi kesiyoruz
+TELEGRAM_TOKEN = str(os.getenv("TELEGRAM_BOT_TOKEN", "")).strip()
 TELEGRAM_CHAT_ID = "-1003953455562"
 
 def send_telegram_message(message):
