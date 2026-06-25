@@ -1,16 +1,10 @@
+print("STARTED BOT")
+
 import requests
 
-TOKEN = "8703847181:AAGrOqw8hWrQqmIIpe7JYYqZrz81QMGzbe0"
-CHAT_ID = "-1003953455562"
+print("IMPORT OK")
 
-btc = requests.get(
-    "https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT"
-).json()["price"]
+btc = requests.get("https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT")
 
-requests.post(
-    f"https://api.telegram.org/bot{TOKEN}/sendMessage",
-    json={
-        "chat_id": CHAT_ID,
-        "text": f"BTC: {btc}"
-    }
-)
+print("STATUS:", btc.status_code)
+print("DATA:", btc.text)
