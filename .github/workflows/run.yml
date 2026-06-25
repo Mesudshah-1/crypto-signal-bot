@@ -16,4 +16,8 @@ jobs:
 
       - run: pip install requests feedparser
 
+      - run: python --version
+      - run: ls
+      - run: cat bot.py
+
       - run: python bot.py
