@@ -1,45 +1,18 @@
-import requests
-import feedparser
-
 print("BOT STARTED")
-print("BTC REQUEST OK")
 
-# 🔐 SENİN BİLGİLERİN DİREKT GİRİLDİ
+import requests
+
 TOKEN = "8703847181:AAG7ZoIJ4XHpqniqm2wp16ZUCHJL7tIzctg"
-GENERAL_CHANNEL = "-1003953455562"
-VIP_CHANNEL = "-1003950012200"
+CHAT_ID = "-1003953455562"
 
-def send(chat_id, text):
-    url = f"https://api.telegram.org/bot{TOKEN}/sendMessage"
-    requests.post(url, json={
-        "chat_id": chat_id,
-        "text": text,
-        "parse_mode": "HTML"
-    })
+btc = requests.get("https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT").json()["price"]
 
-# 🔥 BTC FİYAT
-btc = requests.get(
-    "https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT"
-).json()["price"]
+print("BTC:", btc)
 
-# 📰 HABER
-rss = feedparser.parse("https://www.coindesk.com/arc/outboundfeeds/rss/")
+url = f"https://api.telegram.org/bot{TOKEN}/sendMessage"
+requests.post(url, json={
+    "chat_id": CHAT_ID,
+    "text": f"BTC PRICE: {btc}"
+})
 
-news = ""
-if rss.entries:
-    n = rss.entries[0]
-    news = f"📰 <b>{n.title}</b>\n{n.link}"
-
-# 📊 MESAJ
-message = f"""
-📊 <b>Kripto Mentoru</b>
-
-💰 BTC: <b>{btc}</b>
-
-{news}
-
-#BTC #Crypto
-"""
-
-# 📤 GENEL KANALA GÖNDER
-send(GENERAL_CHANNEL, message)
+print("MESSAGE SENT")
