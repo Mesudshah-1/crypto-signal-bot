@@ -1,4 +1,4 @@
-name: bot
+name: debug
 
 on:
   workflow_dispatch:
@@ -10,10 +10,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
+      - name: SHOW FILES
+        run: ls -R
 
-      - run: pip install requests
+      - name: SHOW BOT
+        run: cat bot.py
 
-      - run: python bot.py
+      - name: RUN PYTHON
+        run: python -u bot.py
