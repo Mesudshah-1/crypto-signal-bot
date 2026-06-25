@@ -2,7 +2,7 @@ import os
 import requests
 import feedparser
 
-TOKEN = os.environ["TELEGRAM_BOT_TOKEN"]
+TOKEN = os.environ["8703847181:AAG7ZoIJ4XHpqniqm2wp16ZUCHJL7tIzctg"]
 GENERAL = os.environ["-1003953455562"]
 VIP = os.environ["-1003950012200"]
 
