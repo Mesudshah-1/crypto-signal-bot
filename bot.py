@@ -1,8 +1,8 @@
 import os
 import requests
 
-TOKEN = os.environ["TELEGRAM_BOT_TOKEN"]
-CHAT_ID = os.environ["GENERAL_CHANNEL_ID"]
+TOKEN = os.environ["8703847181:AAGrOqw8hWrQqmIIpe7JYYqZrz81QMGzbe0"]
+CHAT_ID = os.environ["-1003953455562"]
 
 btc = requests.get("https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT").json()["price"]
 
