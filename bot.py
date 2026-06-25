@@ -2,18 +2,19 @@ import os
 import requests
 import pandas as pd
 import feedparser
+import html
 
-# Token güvenliğiniz için GitHub Secrets'tan alınır (BURAYA ASLA ŞİFRE YAZMA)
+# Token ve Chat ID tanımlamaları
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
 TELEGRAM_CHAT_ID = "-1003953455562"
 
 def send_telegram_message(message):
-    """Telegram kanalına/grubuna mesaj gönderir."""
+    """Telegram kanalına/grubuna HTML formatında mesaj gönderir."""
     url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
     payload = {
         "chat_id": TELEGRAM_CHAT_ID,
         "text": message,
-        "parse_mode": "Markdown",
+        "parse_mode": "HTML",  # Markdown yerine HTML yaptık, hata riskini sıfırladık
         "disable_web_page_preview": False
     }
     try:
@@ -64,27 +65,27 @@ def get_btc_analysis():
         if last_row['EMA_50'] > last_row['EMA_200']:
             ema_status = "Boğa (EMA 50, EMA 200'ün üzerinde) 🟢"
             if prev_row['EMA_50'] <= prev_row['EMA_200']:
-                ema_status += " \n⚠️ **GOLDEN CROSS GERÇEKLEŞTİ!**"
+                ema_status += " \n⚠️ <b>GOLDEN CROSS GERÇEKLEŞTİ!</b>"
         else:
             ema_status = "Ayı (EMA 50, EMA 200'ün altında) 🔴"
             if prev_row['EMA_50'] >= prev_row['EMA_200']:
-                ema_status += " \n⚠️ **DEATH CROSS GERÇEKLEŞTİ!**"
+                ema_status += " \n⚠️ <b>DEATH CROSS GERÇEKLEŞTİ!</b>"
                 
         # MACD Durumu
         if last_row['MACD'] > last_row['Signal']:
             macd_status = "Pozitif (MACD Sinyali Yukarı Kesti) 🟢"
             if prev_row['MACD'] <= prev_row['Signal']:
-                macd_status += " \n⚠️ **MACD AL VERDİ!**"
+                macd_status += " \n⚠️ <b>MACD AL VERDİ!</b>"
         else:
             macd_status = "Negatif (MACD Sinyali Aşağı Kesti) 🔴"
             if prev_row['MACD'] >= prev_row['Signal']:
-                macd_status += " \n⚠️ **MACD SAT VERDİ!**"
+                macd_status += " \n⚠️ <b>MACD SAT VERDİ!</b>"
                 
         analysis_msg = (
-            f"📊 **Günlük BTC/USDT Analiz Raporu**\n\n"
-            f"💰 **Güncel Fiyat:** ${current_price:,.2f}\n\n"
-            f"📈 **EMA 50/200 Trendi:** {ema_status}\n"
-            f"📉 **MACD Durumu:** {macd_status}\n"
+            f"📊 <b>Günlük BTC/USDT Analiz Raporu</b>\n\n"
+            f"💰 <b>Güncel Fiyat:</b> ${current_price:,.2f}\n\n"
+            f"📈 <b>EMA 50/200 Trendi:</b> {ema_status}\n"
+            f"📉 <b>MACD Durumu:</b> {macd_status}\n"
         )
         return analysis_msg
         
@@ -92,15 +93,16 @@ def get_btc_analysis():
         return f"❌ Binance verileri alınırken hata oluştu: {str(e)}"
 
 def get_coindesk_news():
-    """CoinDesk RSS Feed üzerinden en son haberi güvenli şekilde çeker."""
+    """CoinDesk RSS Feed üzerinden en son haberi çeker ve HTML uyumlu yapar."""
     feed_url = "https://www.coindesk.com/arc/outboundfeeds/rss/"
     try:
         feed = feedparser.parse(feed_url)
         if hasattr(feed, 'entries') and len(feed.entries) > 0:
             latest_story = feed.entries[0]
-            title = latest_story.title
+            # Karakter hatalarını önlemek için temizleme yapıyoruz
+            title = html.escape(latest_story.title)
             link = latest_story.link
-            return f"📰 **CoinDesk Son Dakika Haberi:**\n\n[{title}]({link})"
+            return f"📰 <b>CoinDesk Son Dakika Haberi:</b>\n\n<a href='{link}'>{title}</a>"
         return "📰 Güncel CoinDesk haberi şu an alınamadı."
     except Exception as e:
         return f"⚠️ Haber havuzuna bağlanırken ufak bir kesinti oldu."
